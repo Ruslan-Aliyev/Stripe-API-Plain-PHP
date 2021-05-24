@@ -70,10 +70,13 @@ $setupIntent = SetupIntent::create([
 2. Create source as a means of payment: https://stripe.com/docs/api/cards/create
 3. Create SetupIntent to save customer's payment credentials for future payments: https://stripe.com/docs/api/setup_intents/create
 
+However, the above is how you pre-assign a card to customer.
+
+If you want to let the customer enter their card details upon checkout: https://keithweaverca.medium.com/using-stripe-with-php-c341fcc6b68b
+
 ---
 
 - https://www.codexworld.com/stripe-payment-gateway-integration-php/
-- https://keithweaverca.medium.com/using-stripe-with-php-c341fcc6b68b
 - https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
 - https://gist.github.com/boucher/1750375
 - https://artisansweb.net/guide-stripe-integration-website-php/
