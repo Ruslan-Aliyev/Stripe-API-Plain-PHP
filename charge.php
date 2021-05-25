@@ -6,18 +6,11 @@ ini_set('display_errors', 'On');
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Stripe\Stripe;
-use Stripe\Customer;
 use Stripe\Token;
-use Stripe\SetupIntent;
+use Stripe\Charge;
 
 Stripe::setApiKey("sk_test_51ISw50HC8M2JxTUFZ0fNbVPvrEMM8ld25Ntemq53sSxyKSOggo2RYs71mpgYASRaxevWSwieCmZPDI8Hs6UOxLWV003IcdkMas");
  
-$customer = Customer::create(array(
-	"email" => "test@jackdoes.com",
-));
-
-dd($customer);
-
 $token = Token::create([
   'card' => [
     'number' => '4242424242424242',
@@ -29,22 +22,15 @@ $token = Token::create([
 
 dd($token);
 
-$card = Customer::createSource(
-  $customer->id,
-  ['source' => $token->id]
+$charge = Charge::create(
+    array(
+        'amount' => 4200, // 42 Dollars
+        'currency' => 'usd',
+        'source' => $token->id
+    )
 );
 
-dd($card);
-
-$setupIntent = SetupIntent::create([
-  'payment_method_types'   => ['card'],
-  'payment_method'         => $card->id,
-  'customer'               => $customer->id,
-  'confirm'                => 'true'
-]);
-
-dd($setupIntent);
-
+dd($charge);
 
 
 /* ----- ----- */
