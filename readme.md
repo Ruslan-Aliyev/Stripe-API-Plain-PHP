@@ -155,6 +155,8 @@ Whole Tutorials
 - https://keithweaverca.medium.com/using-stripe-with-php-c341fcc6b68b
 - https://artisansweb.net/guide-stripe-integration-website-php/
 
+## Create Subscriptions
+
 ---
 
 - https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
