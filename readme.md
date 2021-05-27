@@ -157,6 +157,57 @@ Whole Tutorials
 
 ## Create Subscriptions
 
+```php
+\Stripe\Stripe::setApiKey("SECRET_KEY");
+ 
+$customer = \Stripe\Customer::create(array(
+  "email" => "what@ever.com",
+));
+
+$token = Token::create([
+  'card' => [
+    'number' => '4242424242424242',
+    'exp_month' => 5,
+    'exp_year' => 2022,
+    'cvc' => '314',
+  ],
+]);
+
+$card = Customer::createSource(
+  $customer->id,
+  ['source' => $token->id]
+);
+
+$setupIntent = SetupIntent::create([
+  'payment_method_types'   => ['card'],
+  'payment_method'         => $card->id,
+  'customer'               => $customer->id,
+  'confirm'                => 'true'
+]);
+
+$product = Product::create([
+  'name' => 'Test Product',
+]);
+
+$price = Price::create([
+  'unit_amount' => 2000,
+  'currency' => 'usd',
+  'recurring' => ['interval' => 'day'],
+  'product' => $product->id,
+]);
+
+$subscription = Subscription::create([
+  'customer' => $customer->id,
+  'items' => [
+    ['price' => $price->id], // Recurring cost
+  ],
+]);
+```
+
+- https://stripe.com/docs/api/products/create
+- https://stripe.com/docs/api/prices/create
+- https://stripe.com/docs/api/subscriptions/create
+
 ---
 
 - https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
