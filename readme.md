@@ -192,6 +192,8 @@ $customer = Customer::create(array(
   "email" => "what@ever.com",
 ));
 
+// Bank Transfer
+
 // ------------
 // $source = Customer::createSource($customer->id, [
 //   "source" => [
@@ -221,6 +223,8 @@ $customer = Customer::create(array(
 // ]);
 // ------------
 
+// SEPA
+
 $source = Source::create([
   "type" => "sepa_debit",
   "sepa_debit" => ["iban" => "DE89370400440532013000"],
@@ -249,7 +253,8 @@ $payment = PaymentIntent::create([
 ```
 #### User enter their bank credentials
 
-https://jsfiddle.net/ywain/jdbsoe9t/
+- https://jsfiddle.net/ywain/jdbsoe9t/
+- https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment_bank.php
 
 ## Create Subscriptions
 
