@@ -163,16 +163,21 @@ https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment_cc.php
 ### Bank Transfer
 
 Tutorials
-- https://stripe.com/docs/api/customer_bank_accounts/verify
-- https://stripe.com/docs/payments/bank-debits
+- Verify customer's bank account
+  - https://stripe.com/docs/api/customer_bank_accounts/verify
+  - https://stripe.com/docs/payments/bank-debits
+    - https://stripe.com/docs/ach#manually-collecting-and-verifying-bank-accounts
+    - https://www.youtube.com/watch?v=_1EX-DrikoA
+    - http://www.coding4developers.com/stripe/stripe-create-bank-account-token-using-stripe-js/
+- SEPA
+  - https://en.wikipedia.org/wiki/Single_Euro_Payments_Area
+  - https://stripe.com/docs/sources/sepa-debit
 - Backend: 
   - https://stripe.com/docs/api/tokens/create_bank_account
   - https://stripe.com/docs/api/sources/object#source_object-type
 - JS: https://stripe.com/docs/js/tokens_sources/create_token?type=bank_account
 
-SEPA is: https://en.wikipedia.org/wiki/Single_Euro_Payments_Area
-
-Details
+Required Info
 - IBAN = International Bank Account Number
 - BIC is the 'equivalent' to SWIFT code or Routing Code: https://wise.com/us/swift-codes/
 
@@ -181,11 +186,70 @@ Details
 #### Pre-assigned bank credentials
 
 ```php
+\Stripe\Stripe::setApiKey("SECRET_KEY");
 
+$customer = Customer::create(array(
+  "email" => "what@ever.com",
+));
+
+// ------------
+// $source = Customer::createSource($customer->id, [
+//   "source" => [
+//     "object"=> "bank_account",
+//     "account_number"=> "000123456789",
+//     "country"=> "US",
+//     "currency"=> "usd",
+//     "account_holder_name"=> "Test",
+//     "account_holder_type"=> "individual",
+//     "routing_number"=> "110000000",
+//   ]
+// ]);
+// ------------
+// $token = Token::create([
+//   'bank_account' => [
+//     'country' => 'US',
+//     'currency' => 'usd',
+//     'account_holder_name' => 'Jenny Rosen',
+//     'account_holder_type' => 'individual',
+//     'routing_number' => '110000000',
+//     'account_number' => '000123456789',
+//   ],
+// ]);
+
+// $source = Customer::createSource($customer->id, [
+//   "source" => $token->id
+// ]);
+// ------------
+
+$source = Source::create([
+  "type" => "sepa_debit",
+  "sepa_debit" => ["iban" => "DE89370400440532013000"],
+  "currency" => "eur",
+  "owner" => [
+    "name" => "Jenny Rosen",
+  ],
+]);
+
+$source = Customer::createSource($customer->id, [
+  'source' => $source->id,
+]);
+
+$payment = PaymentIntent::create([
+  "payment_method_types"=> [
+    "sepa_debit"
+  ],
+  "amount"=> "500",
+  "capture_method"=> "automatic",
+  "confirm"=> "true",
+  "currency"=> "eur",
+  "statement_descriptor"=> "test sd",
+  "source"=> $source->id,
+  "customer"=> $customer->id
+]);
 ```
 #### User enter their bank credentials
 
-https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment_bank.php
+https://jsfiddle.net/ywain/jdbsoe9t/
 
 ## Create Subscriptions
 
