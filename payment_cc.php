@@ -5,6 +5,7 @@ ini_set('display_errors', 'On');
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Stripe\Stripe;
+use Stripe\Customer;
 use Stripe\Source;
 use Stripe\PaymentIntent;
 
@@ -20,7 +21,7 @@ if ($_POST)
     dd($amount);
     dd($email);
 
-    $customer = \Stripe\Customer::create(array(
+    $customer = Customer::create(array(
       "email" => $email,
     ));
     dd($customer);

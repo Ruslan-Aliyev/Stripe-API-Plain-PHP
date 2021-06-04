@@ -97,12 +97,23 @@ $charge = Charge::create(
 
 ## Create a payment
 
+Payment Intents
+- https://stripe.com/docs/api/payment_intents/create
+
 ### Credit Card
+
+Tutorials
+- https://www.codexworld.com/stripe-payment-gateway-integration-php/
+- https://gist.github.com/boucher/1750375  
+- https://keithweaverca.medium.com/using-stripe-with-php-c341fcc6b68b
+- https://artisansweb.net/guide-stripe-integration-website-php/
+
+#### Pre-assigned card credentials
 
 ```php
 \Stripe\Stripe::setApiKey("SECRET_KEY");
 
-$customer = \Stripe\Customer::create(array(
+$customer = Customer::create(array(
   "email" => "what@ever.com",
 ));
 
@@ -145,30 +156,32 @@ $payment = PaymentIntent::create(
 
 ```
 
-Payment Intents
-- https://stripe.com/docs/api/payment_intents/create
+#### User enter their card credentials
 
-The above example show how to pre-assign a card credentials.  
-Now we learn how to let the user enter their card credentials, then pay: https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment.php
+https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment_cc.php
 
 ### Bank Transfer
 
 SEPA is: https://en.wikipedia.org/wiki/Single_Euro_Payments_Area
 
+Tutorials
 - Backend: https://stripe.com/docs/api/tokens/create_bank_account
 - JS: https://stripe.com/docs/js/tokens_sources/create_token?type=bank_account
 
-#### Details
+Details
 - IBAN = International Bank Account Number
 - BIC is the 'equivalent' to SWIFT code or Routing Code: https://wise.com/us/swift-codes/
 
 ![](/Illustrations/BIC.png)
 
-Other tutorials about payments
-- https://www.codexworld.com/stripe-payment-gateway-integration-php/
-- https://gist.github.com/boucher/1750375  
-- https://keithweaverca.medium.com/using-stripe-with-php-c341fcc6b68b
-- https://artisansweb.net/guide-stripe-integration-website-php/
+#### Pre-assigned bank credentials
+
+```php
+
+```
+#### User enter their bank credentials
+
+https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment_bank.php
 
 ## Create Subscriptions
 
