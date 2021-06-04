@@ -97,6 +97,8 @@ $charge = Charge::create(
 
 ## Create a payment
 
+### Credit Card
+
 ```php
 \Stripe\Stripe::setApiKey("SECRET_KEY");
 
@@ -143,13 +145,26 @@ $payment = PaymentIntent::create(
 
 ```
 
-The above examples show how to pre-assign a card credentials.  
-Now we learn how to let the user enter their card credentials, then pay.
-
 Payment Intents
 - https://stripe.com/docs/api/payment_intents/create
 
-Whole Tutorials
+The above example show how to pre-assign a card credentials.  
+Now we learn how to let the user enter their card credentials, then pay: https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment.php
+
+### Bank Transfer
+
+SEPA is: https://en.wikipedia.org/wiki/Single_Euro_Payments_Area
+
+- Backend: https://stripe.com/docs/api/tokens/create_bank_account
+- JS: https://stripe.com/docs/js/tokens_sources/create_token?type=bank_account
+
+#### Details
+- IBAN = International Bank Account Number
+- BIC is the 'equivalent' to SWIFT code or Routing Code: https://wise.com/us/swift-codes/
+
+![](/Illustrations/BIC.png)
+
+Other tutorials about payments
 - https://www.codexworld.com/stripe-payment-gateway-integration-php/
 - https://gist.github.com/boucher/1750375  
 - https://keithweaverca.medium.com/using-stripe-with-php-c341fcc6b68b
@@ -210,5 +225,8 @@ $subscription = Subscription::create([
 
 ---
 
-- https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
-- https://www.remotestack.io/how-to-integrate-stripe-payment-gateway-in-laravel/
+# Other Stripe Tutorials
+
+- Checkout session: https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
+- Laravel: https://www.remotestack.io/how-to-integrate-stripe-payment-gateway-in-laravel/
+- Webhooks: https://www.petekeen.net/stripe-webhook-event-cheatsheet
