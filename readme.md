@@ -162,11 +162,15 @@ https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment_cc.php
 
 ### Bank Transfer
 
-SEPA is: https://en.wikipedia.org/wiki/Single_Euro_Payments_Area
-
 Tutorials
-- Backend: https://stripe.com/docs/api/tokens/create_bank_account
+- https://stripe.com/docs/api/customer_bank_accounts/verify
+- https://stripe.com/docs/payments/bank-debits
+- Backend: 
+  - https://stripe.com/docs/api/tokens/create_bank_account
+  - https://stripe.com/docs/api/sources/object#source_object-type
 - JS: https://stripe.com/docs/js/tokens_sources/create_token?type=bank_account
+
+SEPA is: https://en.wikipedia.org/wiki/Single_Euro_Payments_Area
 
 Details
 - IBAN = International Bank Account Number

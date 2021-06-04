@@ -1,5 +1,5 @@
 <?php
-// NOT YET COMPLETE
+
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
@@ -15,64 +15,42 @@ Stripe::setApiKey("sk_test_51ISw50HC8M2JxTUFZ0fNbVPvrEMM8ld25Ntemq53sSxyKSOggo2R
 
 
 $customer = Customer::create(array(
-  "email" => "what@ever.com",
+  "email" => "nowtest2@ever.com",
 ));
 
-$source = Source::create([
-  'type' => 'ach_credit_transfer',
-  // 'bank_account' => [
-  //   'country' => 'US',
-  //   'currency' => 'usd',
-  //   'account_holder_name' => 'Jenny Rosen',
-  //   'account_holder_type' => 'individual',
-  //   'routing_number' => '110000000',
-  //   'account_number' => '000123456789',
-  // ],  
-  "currency" => "usd",
-  "owner" => [
-    "email" => "jenny.rosen@example.com"
-  ]
-]);
-
-dd($source);
-
-// $token = Token::create([
-//   'bank_account' => [
-//     'country' => 'US',
-//     'currency' => 'usd',
-//     'account_holder_name' => 'Jenny Rosen',
-//     'account_holder_type' => 'individual',
-//     'routing_number' => '110000000', // BIC
-//     'account_number' => '000123456789', // IBAN
-//   ],
-// ]);
-
-// dd($token);
-
-// $source = Source::create([
-//   'type' => 'ach_credit_transfer', // https://stripe.com/docs/api/sources/object#source_object-type
-//   'currency' => 'usd',
-//   'token' => $token->id,
-//   "owner" => [
-//     "email" => $customer->email
+// $source = Customer::createSource($customer->id, [
+//   "source" => [
+//     "object"=> "bank_account",
+//     "account_number"=> "000123456789",
+//     "country"=> "US",
+//     "currency"=> "usd",
+//     "account_holder_name"=> "Test",
+//     "account_holder_type"=> "individual",
+//     "routing_number"=> "110000000",
 //   ]
 // ]);
 
 // dd($source);
 
-$payment = PaymentIntent::create(
-    array(
-        'amount' => 4250, // 42.50 Dollars
-        'currency' => 'usd',
-        'capture_method' => 'automatic',
-        'confirm' => 'true',
-        'statement_descriptor' => 'description ...',
-        'source' => $source->id,
-        'customer' => $customer->id
-    )
-);
+$token = Token::create([
+  'bank_account' => [
+    'country' => 'US',
+    'currency' => 'usd',
+    'account_holder_name' => 'Jenny Rosen',
+    'account_holder_type' => 'individual',
+    'routing_number' => '110000000',
+    'account_number' => '000123456789',
+  ],
+]);
 
-dd($payment);
+dd($token);
+
+$source = Customer::createSource($customer->id, [
+  "source" => $token->id
+]);
+
+dd($source);
+
 
 
 /* ----- ----- */
