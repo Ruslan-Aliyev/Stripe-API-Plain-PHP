@@ -99,6 +99,7 @@ $charge = Charge::create(
 
 Payment Intents
 - https://stripe.com/docs/api/payment_intents/create
+- https://stripe.com/docs/api/payment_intents/confirm
 
 ### Credit Card
 
