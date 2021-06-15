@@ -317,3 +317,11 @@ $subscription = Subscription::create([
 - Checkout session: https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
 - Laravel: https://www.remotestack.io/how-to-integrate-stripe-payment-gateway-in-laravel/
 - Webhooks: https://www.petekeen.net/stripe-webhook-event-cheatsheet
+
+# React
+
+- https://github.com/stripe/react-stripe-js#minimal-example
+- https://stripe.com/docs/stripe-js/react 
+- https://www.youtube.com/watch?v=5y5WwF9s-ZI
+- https://stackoverflow.com/questions/63640839/only-one-element-of-type-cardnumber-can-be-created 
+- https://stackoverflow.com/questions/49239767/how-do-i-add-a-custom-font-to-my-card-element-when-using-react-stripe-elements
