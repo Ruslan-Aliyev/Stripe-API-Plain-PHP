@@ -320,7 +320,8 @@ $subscription = Subscription::create([
 
 # React
 
-- https://github.com/stripe/react-stripe-js#minimal-example
+- Good tutorial: https://github.com/stripe/react-stripe-js#minimal-example
+- My demo: https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/tree/master/react-stripe
 - https://stripe.com/docs/stripe-js/react 
 - https://www.youtube.com/watch?v=5y5WwF9s-ZI
 - https://stackoverflow.com/questions/63640839/only-one-element-of-type-cardnumber-can-be-created 
