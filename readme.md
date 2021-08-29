@@ -257,6 +257,114 @@ $payment = PaymentIntent::create([
 - https://jsfiddle.net/ywain/jdbsoe9t/
 - https://github.com/Ruslan-Aliyev/Stripe-API-Plain-PHP/blob/master/payment_bank.php
 
+## 3D Secure 
+
+2-Factor Authentication between Stripe and customer's bank.
+
+- https://stripe.com/docs/payments/3d-secure
+
+### None
+
+If Create PaymentIntent returns `"status": "succeeded"`
+
+You can get below response with Credit Card number: `4242424242424242`
+
+```
+{
+    "id": "pi_3JTeuIHC8M2JxTUF0E9BZGPX",
+    "object": "payment_intent",
+    "amount": 2000,
+    "amount_capturable": 0,
+    "amount_received": 2000,
+    "charges": {
+        "object": "list",
+        "data": [
+            {
+                "id": "ch_3JTeuIHC8M2JxTUF0WfqFAkb",
+                "object": "charge",
+                "amount": 2000,
+                "amount_captured": 2000,
+                "amount_refunded": 0,
+            }
+        ],
+    },
+    "status": "succeeded",
+}
+```
+
+### 3D Secure - Version 1
+
+If Create PaymentIntent returns `"status": "requires_action"` and `"next_action"` contains `"three_d_secure_redirect"`
+
+You can get below response with Credit Card number: `4000000000003063`
+
+```
+{
+    "id": "pi_3JTezVHC8M2JxTUF0dFduXtH",
+    "object": "payment_intent",
+    "amount": 2000,
+    "amount_capturable": 0,
+    "amount_received": 0,
+    "charges": {
+        "object": "list",
+        "data": [],
+        "has_more": false,
+        "total_count": 0,
+        "url": "/v1/charges?payment_intent=pi_3JTezVHC8M2JxTUF0dFduXtH"
+    },
+    "next_action": {
+        "type": "use_stripe_sdk",
+        "use_stripe_sdk": {
+            "type": "three_d_secure_redirect",
+            "stripe_js": "https://hooks.stripe.com/redirect/authenticate/src_1JTezWHC8M2JxTUF2p0bLDpS?client_secret=src_client_secret_4P5awMuZ47ZB1XCd9pusgZHt&source_redirect_slug=test_YWNjdF8xSVN3NTBIQzhNMkp4VFVGLF9LN3VwYU9hZDFvWktuTkpiaUE0WmZQM0xMZ01nS2t60100BIm9KDR6",
+            "source": "src_1JTezWHC8M2JxTUF2p0bLDpS"
+        }
+    },
+    "status": "requires_action",
+}
+```
+
+You should then redirect customer to that `three_d_secure_redirect` URL, where customer can authenticate himself with his bank.
+
+Then you check his authentication by `GET https://api.stripe.com/v1/payment_intents/{stripe_payment_intent_id}`.
+
+If authentication failed, `status` won't be `succeeded` and `last_payment_error` will have something:
+```
+{
+    "id": "pi_3JTf5fHC8M2JxTUF1qCrUPQx",
+    "object": "payment_intent",
+    "amount": 2000,
+    "amount_capturable": 0,
+    "amount_received": 0,
+    "charges": {
+        "object": "list",
+        "data": [],
+        "has_more": false,
+        "total_count": 0,
+        "url": "/v1/charges?payment_intent=pi_3JTf5fHC8M2JxTUF1qCrUPQx"
+    },
+    "last_payment_error": {
+        "code": "payment_intent_authentication_failure",
+        "doc_url": "https://stripe.com/docs/error-codes/payment-intent-authentication-failure",
+        "message": "The provided source has failed authentication. You can provide source_data or a new source to attempt to fulfill this PaymentIntent again.",
+    },
+    "status": "requires_payment_method",
+}
+```
+
+If authentication succeeded, `status` will be `succeeded`.
+
+### 3D Secure - Version 2
+
+You can try this functionality with Credit Card number: `4000000000003220`
+
+- https://stripe.com/gb/guides/3d-secure-2
+- https://developers.recurly.com/guides/3ds2.html#integration-guide
+- https://github.com/topics/3d-secure
+- https://stackoverflow.com/questions/57947500/laravel-cashier-3d-secure-sca-issue-stripe/57949694#57949694
+
+This in PHP isn't well documented yet.
+
 ## Create Subscriptions
 
 ```php
@@ -310,6 +418,16 @@ $subscription = Subscription::create([
 - https://stripe.com/docs/api/prices/create
 - https://stripe.com/docs/api/subscriptions/create
 
+## Cancel & Refund
+
+- https://stripe.com/docs/api/payment_intents/cancel
+- https://stripe.com/docs/refunds
+
+You will need the `Charge ID` before you can `Cancel` or `Refund`. You can get it by `GET https://api.stripe.com/v1/payment_intents/{stripe_payment_intent_id}`.
+
+A `PaymentIntent` object can be canceled when it is in one of these statuses: `requires_payment_method`, `requires_capture`, `requires_confirmation`, or `requires_action`.  
+If you can't cancel, then consider refund.
+
 ---
 
 # Other Stripe Tutorials
@@ -317,6 +435,10 @@ $subscription = Subscription::create([
 - Checkout session: https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
 - Laravel: https://www.remotestack.io/how-to-integrate-stripe-payment-gateway-in-laravel/
 - Webhooks: https://www.petekeen.net/stripe-webhook-event-cheatsheet
+- Errors:
+  - https://stripe.com/docs/api/errors
+  - https://github.com/stripe/stripe-php/tree/master/lib/Exception
+  - https://stripe.com/docs/api/errors/handling
 
 # React
 
