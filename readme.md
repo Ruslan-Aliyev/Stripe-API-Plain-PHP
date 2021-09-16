@@ -356,14 +356,87 @@ If authentication succeeded, `status` will be `succeeded`.
 
 ### 3D Secure - Version 2
 
-You can try this functionality with Credit Card number: `4000000000003220`
+If Create PaymentIntent returns `"status": "requires_action"` and `"next_action"` contains `"stripe_3ds2_fingerprint"`
 
+You can get below response with Credit Card number: `4000000000003220`
+
+```
+{
+    "id": "pi_3JaMbkJBxP8ARq8K1EWflbQy",
+    "object": "payment_intent",
+    "amount": 2000,
+    "amount_capturable": 0,
+    "amount_received": 0,
+    "charges": {
+        "object": "list",
+        "data": [],
+        "has_more": false,
+        "total_count": 0,
+        "url": "/v1/charges?payment_intent=pi_3JaMbkJBxP8ARq8K1EWflbQy"
+    },
+    "client_secret": "pi_3JaMbkJBxP8ARq8K1EWflbQy_secret_8qOovqvYPMmM38G2kjZUPho1U",
+    "next_action": {
+        "type": "use_stripe_sdk",
+        "use_stripe_sdk": {
+            "type": "stripe_3ds2_fingerprint",
+            "merchant": "acct_1J16v1JBxP8ARq8K",
+            "three_d_secure_2_source": "src_1JaMblJBxP8ARq8Kk8KceLtJ",
+            "directory_server_name": "visa",
+            "server_transaction_id": "8f182044-45fa-4ec1-8908-dcc33f647ec9",
+            "three_ds_method_url": "",
+            "three_ds_optimizations": "k",
+            "directory_server_encryption": {
+                "directory_server_id": "A000000003",
+                "algorithm": "RSA",
+                "certificate": "xxx",
+                "root_certificate_authorities": [
+                    "xxx"
+                ]
+            },
+            "one_click_authn": null
+        }
+    },
+    "status": "requires_action",
+}
+```
+
+You should take the `client_secret` and pass into `https://js.stripe.com/v3/`'s `stripe.confirmCardPayment("pi_3JaMbkJBxP8ARq8K1EWflbQy_secret_8qOovqvYPMmM38G2kjZUPho1U")`
+
+```js
+Promise.coroutine(function* () {
+
+  var response = yield stripe.confirmCardPayment(paymentIntentResponse.client_secret);
+  
+  if (response.paymentIntent && response.paymentIntent.status === 'succeeded')
+  {
+    // response.paymentIntent contains the success info
+    // Notable fields are:
+    // Payment Intent ID: response.paymentIntent.id
+    // Paid amount: response.paymentIntent.amount
+  }
+
+  if (response.error)
+  {
+    // response.error contains the error info, as well as a payment_intent sub-object
+    // Notable fields are:
+    // Payment Intent ID: response.error.payment_intent.id
+    // Amount: response.error.payment_intent.amount
+    // Payment Intent status: response.error.payment_intent.status
+    // Error Code: response.error.code
+    // Error Type: response.error.type
+    // Error Message: response.error.message
+  }
+
+})().catch(function (errs) {
+  console.log(errs);
+});
+```
+
+- https://stripe.com/docs/js/payment_intents/confirm_card_payment
 - https://stripe.com/gb/guides/3d-secure-2
 - https://developers.recurly.com/guides/3ds2.html#integration-guide
 - https://github.com/topics/3d-secure
 - https://stackoverflow.com/questions/57947500/laravel-cashier-3d-secure-sca-issue-stripe/57949694#57949694
-
-This in PHP isn't well documented yet.
 
 ## Create Subscriptions
 
