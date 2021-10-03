@@ -508,10 +508,13 @@ If you can't cancel, then consider refund.
 - Checkout session: https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
 - Laravel: https://www.remotestack.io/how-to-integrate-stripe-payment-gateway-in-laravel/
 - Webhooks: https://www.petekeen.net/stripe-webhook-event-cheatsheet
+- "Cheatsheet": https://gist.github.com/briankung/865c7cb5f136e2b1a746e1613c79b312
 - Errors:
   - https://stripe.com/docs/api/errors
   - https://github.com/stripe/stripe-php/tree/master/lib/Exception
   - https://stripe.com/docs/api/errors/handling
+  - https://stripe.com/docs/error-codes
+  - https://stripe.com/docs/declines/codes
 
 # React
 
