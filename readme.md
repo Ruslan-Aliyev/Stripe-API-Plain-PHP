@@ -505,8 +505,8 @@ If you can't cancel, then consider refund.
 
 # Other Stripe Tutorials
 
+- https://www.youtube.com/playlist?list=PLfdtiltiRHWHn4uErhCQEk1EIUjSGkuDk
 - Checkout session: https://www.greatbigdigitalagency.com/blog/get-stripe-up-and-running-fast-with-php
-- Laravel: https://www.remotestack.io/how-to-integrate-stripe-payment-gateway-in-laravel/
 - Webhooks: https://www.petekeen.net/stripe-webhook-event-cheatsheet
 - "Cheatsheet": https://gist.github.com/briankung/865c7cb5f136e2b1a746e1613c79b312
 - Errors:
